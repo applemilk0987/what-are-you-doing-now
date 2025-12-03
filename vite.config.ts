@@ -1,6 +1,7 @@
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default {
+  base: '/what-are-you-doing-now/',
   plugins: [
     VitePWA({
       manifest: {
