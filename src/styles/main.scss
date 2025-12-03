@@ -1,0 +1,44 @@
+@import 'reset';
+@import 'variables';
+@import 'mixins';
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: $primary-color;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+input {
+  padding: $padding-base;
+  font-size: $font-size-base;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 250px;
+}
+
+button {
+  padding: $padding-base 12px;
+  margin-left: 8px;
+  font-size: $font-size-base;
+  border: none;
+  border-radius: 4px;
+  background-color: $primary-color;
+  color: #fff;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  margin-top: 12px;
+}
+
+li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
