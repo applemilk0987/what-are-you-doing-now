@@ -5,6 +5,11 @@ on:
     branches:
       - main  # 프로젝트의 메인 브랜치 이름 (main 또는 master)에 맞춰주세요.
 
+permissions:
+  id-token: write  # OIDC 인증을 위해 반드시 필요
+  contents: read   # 코드를 체크아웃 하기 위해 필요 (기본적으로 read 권한은 유지)
+  pages: write     # GitHub Pages 배포를 위해 필요 (만약 GitHub Pages 배포가 포함된다면)
+
 jobs:
   build:
     runs-on: ubuntu-latest
