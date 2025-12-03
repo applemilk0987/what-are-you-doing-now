@@ -2,43 +2,148 @@
 @import 'variables';
 @import 'mixins';
 
+/* Layout */
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
 h1 {
-  font-size: 24px;
-  margin-bottom: 16px;
+  font-size: 28px;
+  margin-bottom: 20px;
   color: $primary-color;
+  text-align: center;
 }
 
 h2 {
-  font-size: 20px;
+  font-size: 22px;
   margin-top: 24px;
   margin-bottom: 12px;
+  color: darken($primary-color, 10%);
 }
 
-input {
-  padding: $padding-base;
-  font-size: $font-size-base;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 250px;
+/* Form */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  input {
+    padding: $padding-base;
+    font-size: $font-size-base;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+
+  button {
+    padding: $padding-base 14px;
+    margin-left: 10px;
+    font-size: $font-size-base;
+    border: none;
+    border-radius: 4px;
+    background-color: $primary-color;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
 }
 
-button {
-  padding: $padding-base 12px;
-  margin-left: 8px;
-  font-size: $font-size-base;
-  border: none;
-  border-radius: 4px;
-  background-color: $primary-color;
-  color: #fff;
-  cursor: pointer;
-}
-
+/* Activity List */
 ul {
   list-style: none;
-  margin-top: 12px;
+  padding: 0;
+  width: 100%;
+  max-width: 500px;
+
+  li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f1f1f1;
+    }
+
+    button {
+      background-color: $secondary-color;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+
+      &:hover {
+        background-color: darken($secondary-color, 10%);
+      }
+    }
+  }
 }
 
-li {
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
+/* Date filter */
+label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+
+  input[type='date'] {
+    margin-left: 8px;
+    padding: 4px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body { padding: 10px; }
+
+  h1 { font-size: 22px; }
+  h2 { font-size: 18px; }
+
+  form {
+    flex-direction: column;
+    align-items: stretch;
+
+    input { width: 100%; margin-bottom: 10px; }
+    button { width: 100%; margin-left: 0; }
+  }
+
+  ul { max-width: 100%; }
+
+  li { flex-direction: column; align-items: flex-start;
+       button { margin-top: 6px; } }
+
+  label { flex-direction: column; align-items: flex-start;
+          input[type='date'] { margin-left: 0; margin-top: 4px; width: 100%; } }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 20px; }
+  h2 { font-size: 16px; }
+  input, button, li { font-size: 14px; }
 }
