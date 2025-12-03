@@ -1,14 +1,11 @@
 import { useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import type { Language } from './pages/Home';
 import Home from './pages/Home';
-import './styles/main.scss';
-
-type Language = 'en' | 'ko';
 
 function App() {
   const [lang, setLang] = useState<Language>(() => {
-    const storedLang = localStorage.getItem('language') as Language;
-    return storedLang || 'en';
+    const stored = localStorage.getItem('language') as Language;
+    return stored || 'en';
   });
 
   const handleLangChange = (newLang: Language) => {
@@ -16,13 +13,7 @@ function App() {
     localStorage.setItem('language', newLang);
   };
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home lang={lang} onLangChange={handleLangChange} />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <Home lang={lang} onLangChange={handleLangChange} />;
 }
 
 export default App;
