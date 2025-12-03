@@ -3,22 +3,18 @@ import React, { useEffect, useState } from 'react';
 interface Activity {
   id: number;
   text: string;
-  timestamp: string;
+  timestamp: string; // "YYYY-MM-DD HH:MM:SS"
 }
 
 const LogActivity: React.FC = () => {
   const [activity, setActivity] = useState('');
   const [activities, setActivities] = useState<Activity[]>([]);
 
-  // 페이지 로딩 시 로컬스토리지에서 불러오기
   useEffect(() => {
     const stored = localStorage.getItem('activities');
-    if (stored) {
-      setActivities(JSON.parse(stored));
-    }
+    if (stored) setActivities(JSON.parse(stored));
   }, []);
 
-  // 로컬스토리지 저장
   const saveToStorage = (newActivities: Activity[]) => {
     localStorage.setItem('activities', JSON.stringify(newActivities));
   };
@@ -28,16 +24,26 @@ const LogActivity: React.FC = () => {
     const trimmed = activity.trim();
     if (!trimmed) return;
 
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
+    const timeStr = now.toLocaleTimeString();       // HH:MM:SS
+
     const newActivity: Activity = {
       id: Date.now(),
       text: trimmed,
-      timestamp: new Date().toLocaleString(),
+      timestamp: `${dateStr} ${timeStr}`,
     };
 
     const newActivities = [newActivity, ...activities];
     setActivities(newActivities);
     saveToStorage(newActivities);
     setActivity('');
+  };
+
+  const handleDelete = (id: number) => {
+    const filtered = activities.filter((act) => act.id !== id);
+    setActivities(filtered);
+    saveToStorage(filtered);
   };
 
   return (
@@ -60,7 +66,8 @@ const LogActivity: React.FC = () => {
         ) : (
           activities.map((act) => (
             <li key={act.id}>
-              [{act.timestamp}] {act.text}
+              [{act.timestamp}] {act.text}{' '}
+              <button onClick={() => handleDelete(act.id)}>Delete</button>
             </li>
           ))
         )}
