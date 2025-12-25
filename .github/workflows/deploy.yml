@@ -1,0 +1,48 @@
+name: Deploy React App to Pages
+
+on:
+  push:
+    branches:
+      - main  # 💡 프로젝트의 메인 브랜치 이름 (main 또는 master)에 맞춰주세요.
+
+permissions:
+  contents: read   # 코드를 읽어오는 권한
+  pages: write     # GitHub Pages 배포를 위한 권한 (필수)
+  id-token: write  # OIDC 인증을 위한 권한 (Pages 배포 시 권장)
+
+jobs:
+  build_and_deploy: # 작업 이름은 build_and_deploy로 통일
+    runs-on: ubuntu-latest
+    
+    # 💡 Missing environment 오류 해결: github-pages 환경을 명시적으로 지정
+    environment:
+      name: github-pages 
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # 💡 사용하는 Node.js 버전에 맞춰주세요.
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project (generates dist folder)
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # ⭐ 핵심: dist 폴더를 배포 아티팩트로 업로드 ⭐
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: './dist' 
+      
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
